@@ -16,17 +16,17 @@ public class Main {
         for (int i = 0; i < n; i++) {
             if (i == 0) {
                 /* check if array got only one element
-                   or if element is the first element of an array
-                * */
+                 * or if element is the first element of an array
+                 */
                 if (n == 1 || array[i] < array[i + 1]) {
                     numLocalMin++;
                 }
-                /* check if element is the last element of an array
-                 * */
-            } else if (i == n - 1) {
+
+            } else if (i == n - 1) {    /* check if element is the last element of an array */
                 if (array[i] < array[i - 1]) {
                     numLocalMin++;
                 }
+
             } else {
                 if (array[i] < array[i - 1] && array[i] < array[i + 1]) {
                     numLocalMin++;
