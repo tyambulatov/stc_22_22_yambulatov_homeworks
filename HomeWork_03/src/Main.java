@@ -16,7 +16,8 @@ public class Main {
         for (int i = 0; i < n; i++) {
             if (i == 0) {
                 /* check if array got only one element
-                 * or if element is the first element of an array
+                 * or if array.length() > 1 and 
+                 *    element satisfies localMin condition
                  */
                 if (n == 1 || array[i] < array[i + 1]) {
                     numLocalMin++;
