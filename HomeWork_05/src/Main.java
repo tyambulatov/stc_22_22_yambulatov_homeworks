@@ -1,12 +1,12 @@
 public class Main {
     public static void main(String[] args) {
-        TestATMConstructor();
-        TestATMWithdraw();
-        TestATMDeposit();
-        TestATMConductedActivitiesAndBalance();
+        testATMConstructor();
+        testATMWithdraw();
+        testATMDeposit();
+        testATMConductedActivitiesAndBalance();
     }
 
-    public static void TestATMConstructor() {
+    public static void testATMConstructor() {
         ATM atm = new ATM(0, 0, 0);
         assert 0 == atm.getBALANCE_LIMIT();
         assert 0 == atm.getWITHDRAWAL_LIMIT();
@@ -29,7 +29,7 @@ public class Main {
         } catch (Exception exception) { }
     }
 
-    public static void TestATMWithdraw() {
+    public static void testATMWithdraw() {
         assert 0 == new ATM(0, 2, 0).withdraw(0);
         assert 0 == new ATM(0, 2, 0).withdraw(1);
         assert 0 == new ATM(0, 2, 1).withdraw(0);
@@ -45,7 +45,7 @@ public class Main {
         assert 3 == new ATM(5, 3, 3).withdraw(4);
     }
 
-    public static void TestATMDeposit() {
+    public static void testATMDeposit() {
         assert 0 == new ATM(2, 0, 0).deposit(0);
         assert 1 == new ATM(2, 0, 0).deposit(1);
         assert 0 == new ATM(2, 1, 0).deposit(0);
@@ -58,7 +58,7 @@ public class Main {
         assert 2 == new ATM(2, 1, 1).deposit(2);
     }
 
-    public static void  TestATMConductedActivitiesAndBalance() {
+    public static void  testATMConductedActivitiesAndBalance() {
         ATM atm = new ATM(2, 2, 2);
 
         assert 0 == atm.deposit(0);
