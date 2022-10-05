@@ -41,7 +41,7 @@ public class ATM {
         return  cashToDeposit - depositedCash;
     }
 
-    public void AddConductedActivity() {
+    private void AddConductedActivity() {
         ConductedActivities++;
     }
 
