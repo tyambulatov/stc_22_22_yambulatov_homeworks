@@ -67,5 +67,4 @@ public class Main {
         }
         return (s.length() > 0) ? Integer.parseInt(s) : -1;
     }
-
 }
