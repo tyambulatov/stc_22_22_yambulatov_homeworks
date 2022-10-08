@@ -8,10 +8,12 @@ public class Ellipse extends Shape{
         this.bigR = bigR;
     }
 
+    @Override
     public double computePerimeter() {
         return 4 * (Math.PI * bigR * smallR + Math.pow((bigR - smallR), 2)) / (bigR + smallR);
     }
 
+    @Override
     public double computeArea() {
         return Math.PI * bigR * smallR;
     }

@@ -9,10 +9,12 @@ public class Rectangle extends Shape {
         this.width = width;
     }
 
+    @Override
     public double computePerimeter() {
         return 2 * (height + width);
     }
 
+    @Override
     public double computeArea() {
         return height * width;
     }
