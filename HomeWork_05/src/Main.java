@@ -8,20 +8,20 @@ public class Main {
 
     public static void testATMConstructor() {
         ATM atm = new ATM(0, 0, 0);
-        assert 0 == atm.getBALANCE_LIMIT();
-        assert 0 == atm.getWITHDRAWAL_LIMIT();
+        assert 0 == atm.getBalanceLimit();
+        assert 0 == atm.getWithdrawalLimit();
 
         atm = new ATM(1, 0, 0);
-        assert 0 == atm.getBALANCE_LIMIT();
-        assert 0 == atm.getWITHDRAWAL_LIMIT();
+        assert 0 == atm.getBalanceLimit();
+        assert 0 == atm.getWithdrawalLimit();
 
         atm = new ATM(0, 1, 0);
-        assert 1 == atm.getBALANCE_LIMIT();
-        assert 0 == atm.getWITHDRAWAL_LIMIT();
+        assert 1 == atm.getBalanceLimit();
+        assert 0 == atm.getWithdrawalLimit();
 
         atm = new ATM(1, 2, 0);
-        assert 2 == atm.getBALANCE_LIMIT();
-        assert 1 == atm.getWITHDRAWAL_LIMIT();
+        assert 2 == atm.getBalanceLimit();
+        assert 1 == atm.getWithdrawalLimit();
 
         try {
             atm = new ATM(0, 2, 3);

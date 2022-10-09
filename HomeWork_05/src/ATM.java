@@ -1,16 +1,15 @@
-import javax.naming.directory.InvalidSearchFilterException;
 
 public class ATM {
     private int balance;
-    private final int WITHDRAWAL_LIMIT;
-    private final int BALANCE_LIMIT;
-    private int ConductedActivities = 0;
+    private final int withdrawalLimit;
+    private final int balanceLimit;
+    private int conductedActivities = 0;
 
-    public ATM(int WithdrawalLimit, int BalanceLimit, int balance) {
-        WITHDRAWAL_LIMIT = (WithdrawalLimit > BalanceLimit) ? BalanceLimit : WithdrawalLimit;
-        BALANCE_LIMIT = BalanceLimit;
+    public ATM(int withdrawalLimit, int balanceLimit, int balance) {
+        this.withdrawalLimit = Math.min(withdrawalLimit, balanceLimit);
+        this.balanceLimit = balanceLimit;
 
-        if (balance > BalanceLimit) {
+        if (balance > balanceLimit) {
             throw new IllegalArgumentException("Incorrect balance value: balance is greater than balance limit");
         }
 
@@ -18,12 +17,12 @@ public class ATM {
     }
 
     public int withdraw(int cashToWithdraw) {
-        cashToWithdraw = (cashToWithdraw > WITHDRAWAL_LIMIT) ? WITHDRAWAL_LIMIT : cashToWithdraw;
-        cashToWithdraw = (cashToWithdraw > balance) ? balance : cashToWithdraw;
+        cashToWithdraw = Math.min(cashToWithdraw, withdrawalLimit);
+        cashToWithdraw = Math.min(cashToWithdraw, balance);
 
         balance -= cashToWithdraw;
         if (cashToWithdraw != 0) {
-            AddConductedActivity();
+            addConductedActivity();
         }
 
         return cashToWithdraw;
@@ -31,34 +30,34 @@ public class ATM {
 
     public int deposit(int cashToDeposit) {
 
-        int depositedCash = (cashToDeposit + balance > BALANCE_LIMIT) ? BALANCE_LIMIT - balance : cashToDeposit;
+        int depositedCash = (cashToDeposit + balance > balanceLimit) ? balanceLimit - balance : cashToDeposit;
 
         balance += depositedCash;
         if (depositedCash != 0) {
-            AddConductedActivity();
+            addConductedActivity();
         }
 
         return  cashToDeposit - depositedCash;
     }
 
-    private void AddConductedActivity() {
-        ConductedActivities++;
+    private void addConductedActivity() {
+        conductedActivities++;
     }
 
     public int getConductedActivities() {
-        return ConductedActivities;
+        return conductedActivities;
     }
 
     public int getBalance() {
         return balance;
     }
 
-    public int getWITHDRAWAL_LIMIT() {
-        return WITHDRAWAL_LIMIT;
+    public int getWithdrawalLimit() {
+        return withdrawalLimit;
     }
 
-    public int getBALANCE_LIMIT() {
-        return BALANCE_LIMIT;
+    public int getBalanceLimit() {
+        return balanceLimit;
     }
 
 }
