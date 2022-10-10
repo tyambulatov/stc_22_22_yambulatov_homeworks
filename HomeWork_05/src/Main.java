@@ -25,8 +25,10 @@ public class Main {
 
         try {
             atm = new ATM(0, 2, 3);
-            throw new IllegalArgumentException("Incorrect ATM object created");
-        } catch (Exception exception) { }
+            throw new Exception("Incorrect ATM object created");
+        } catch (IllegalAccessException exception) {
+
+        }
     }
 
     public static void testATMWithdraw() {
