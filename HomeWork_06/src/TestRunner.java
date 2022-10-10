@@ -65,7 +65,7 @@ public class TestRunner {
         for (var smallRbigR : tests) {
             try {
                 new Ellipse(1, 2, smallRbigR[0], smallRbigR[1]);
-                throw new Exception("rectangle was created with incorrect height or width");
+                throw new Exception("ellipse was created with incorrect radius");
 
             } catch (Exception exception) {
 
