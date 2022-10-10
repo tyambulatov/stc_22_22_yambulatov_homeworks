@@ -4,6 +4,10 @@ public class Ellipse extends Shape{
 
     Ellipse(int x, int y, double smallR, double bigR) {
         super(x, y);
+        if (smallR <= 0 || bigR <= 0) {
+            throw  new IllegalArgumentException("smaller radius or bigger radius is lower then or equal to zero: smallR: "
+                    + smallR + " bigR: " + bigR);
+        }
         this.smallR = smallR;
         this.bigR = bigR;
     }

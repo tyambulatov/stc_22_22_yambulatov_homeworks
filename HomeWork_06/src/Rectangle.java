@@ -5,6 +5,11 @@ public class Rectangle extends Shape {
 
     Rectangle(int x, int y, double height, double width) {
         super(x, y);
+
+        if (height <= 0 || width <= 0) {
+            throw new IllegalArgumentException("height or width is lower than or equal to zero: height: "
+                        + height + " width: " + width);
+        }
         this.height = height;
         this.width = width;
     }
