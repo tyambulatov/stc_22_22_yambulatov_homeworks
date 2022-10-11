@@ -1,7 +1,7 @@
 public abstract class AbstractNumbersPrintTask implements Task {
 
-    protected int from;
-    protected int to;
+    protected final int from;
+    protected final int to;
 
     protected AbstractNumbersPrintTask(int from, int to) {
         if (from > to) {

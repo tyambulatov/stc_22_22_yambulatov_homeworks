@@ -10,10 +10,10 @@ public class TestRunner {
     }
 
     private static void testTask() {
-        Task task = new OddNumbersPrintTask(1, 2);
-        Task task1 = new EvenNumbersPrintTask(1, 2);
+        Task taskOdd = new OddNumbersPrintTask(1, 2);
+        Task taskEven = new EvenNumbersPrintTask(1, 2);
 
-        Task[] tasks = {new OddNumbersPrintTask(1, 2), new EvenNumbersPrintTask(1, 2)};
+        Task[] tasks = {taskOdd, taskEven};
 
         int[][] intendedResult = {{1}, {2}};
         int[][] output = new int[2][1];
