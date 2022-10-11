@@ -23,10 +23,10 @@ public class Ellipse extends Shape{
     }
 
     public final double getSmallR() {
-        return this.smallR;
+        return smallR;
     }
     public final double getBigR() {
-        return this.bigR;
+        return bigR;
     }
 
 

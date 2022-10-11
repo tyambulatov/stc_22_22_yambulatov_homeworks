@@ -12,15 +12,15 @@ public abstract class Shape {
     public abstract double computeArea();
 
     public void move(int toX, int toY) {
-        this.x = toX;
-        this.y = toY;
+        x = toX;
+        y = toY;
     }
 
     public int getX() {
-        return this.x;
+        return x;
     }
 
     public int getY() {
-        return this.y;
+        return y;
     }
 }

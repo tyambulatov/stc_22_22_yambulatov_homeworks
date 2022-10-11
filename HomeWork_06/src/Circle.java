@@ -7,6 +7,6 @@ public class Circle extends Ellipse{
     }
 
     public double getRadius() {
-        return this.radius;
+        return radius;
     }
 }

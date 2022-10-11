@@ -7,6 +7,6 @@ public class OddNumbersPrintTask extends AbstractNumbersPrintTask {
 
     @Override
     public int[] calc() {
-        return IntStream.rangeClosed(this.from, this.to).filter(num -> num % 2 == 1).toArray();
+        return IntStream.rangeClosed(from, to).filter(num -> num % 2 == 1).toArray();
     }
 }

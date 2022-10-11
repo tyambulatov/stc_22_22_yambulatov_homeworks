@@ -7,6 +7,6 @@ public class EvenNumbersPrintTask extends AbstractNumbersPrintTask {
 
     @Override
     public int[] calc() {
-        return IntStream.rangeClosed(this.from, this.to).filter(num -> num % 2 == 0).toArray();
+        return IntStream.rangeClosed(from, to).filter(num -> num % 2 == 0).toArray();
     }
 }

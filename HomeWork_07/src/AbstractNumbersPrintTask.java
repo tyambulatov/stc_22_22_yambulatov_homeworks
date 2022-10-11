@@ -15,10 +15,10 @@ public abstract class AbstractNumbersPrintTask implements Task {
     }
 
     public int getFrom() {
-        return this.from;
+        return from;
     }
 
     public int getTo() {
-        return this.to;
+        return to;
     }
 }

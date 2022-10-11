@@ -25,10 +25,10 @@ public class Rectangle extends Shape {
     }
 
     public double getHeight() {
-        return this.height;
+        return height;
     }
     public double getWidth() {
-        return this.width;
+        return width;
     }
 
 }
