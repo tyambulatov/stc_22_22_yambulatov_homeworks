@@ -1,5 +1,6 @@
 import java.util.Arrays;
 
+@FunctionalInterface
 public interface Task {
     int[] calc();
     default void complete() {
