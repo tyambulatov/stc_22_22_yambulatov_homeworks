@@ -47,6 +47,7 @@ class LinkedListTest {
         linkedList.remove("a");
         Assertions.assertEquals("[]", Arrays.toString(linkedList.toArray()));
     }
+
     private void removeWithoutDuplicates() {
         linkedList = new LinkedList<>();
         linkedList.add("a");
@@ -174,6 +175,7 @@ class LinkedListTest {
         linkedList.removeAt(0);
         Assertions.assertEquals("[]", Arrays.toString(linkedList.toArray()));
     }
+
     private void removeAtMultipleElementArray() {
         linkedList = new LinkedList<>();
         linkedList.add(null);

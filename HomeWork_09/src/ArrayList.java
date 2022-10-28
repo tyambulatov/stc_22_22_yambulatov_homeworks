@@ -25,57 +25,33 @@ public class ArrayList<T> implements List<T> {
                 elements = (T[]) Arrays.copyOf(a, count, Object[].class);
             }
         } else {
-            // replace with empty array.
             elements = (T[]) new Object[DEFAULT_ARRAY_SIZE];
         }
     }
 
-    /**
-     * Removes the first occurrence of the specified element from this list,
-     * if it is present.  If the list does not contain the element, it is
-     * unchanged.  More formally, removes the element with the lowest index
-     * {@code i} such that
-     * {@code Objects.equals(o, get(i))}
-     * (if such an element exists).
-     *
-     * @param element element to be removed from this list, if present
-     */
     @Override
     public void remove(T element) {
         final Object[] es = elements;
         final int size = count;
 
-        boolean containsElement = false;
         int index = 0;
 
         if (element == null) {
             for (; index < size; index++)
                 if (es[index] == null) {
-                    containsElement = true;
+                    fastRemove(es, index);
                     break;
                 }
         } else {
             for (; index < size; index++)
                 if (element.equals(es[index])) {
-                    containsElement = true;
+                    fastRemove(es, index);
                     break;
                 }
-        }
-
-        if (containsElement) {
-            fastRemove(es, index);
         }
     }
 
 
-    /**
-     * Removes the element at the specified position in this list.
-     * Shifts any subsequent elements to the left (subtracts one from their
-     * indices).
-     *
-     * @param index the index of the element to be removed
-     * @throws IndexOutOfBoundsException
-     */
     @Override
     public void removeAt(int index) {
         Objects.checkIndex(index, count);
@@ -83,10 +59,6 @@ public class ArrayList<T> implements List<T> {
         fastRemove(es, index);
     }
 
-    /**
-     * Private remove method that skips bounds checking and does not
-     * return the value removed.
-     */
     private void fastRemove(Object[] es, int i) {
         final int newCount = count - 1;
 
@@ -98,6 +70,7 @@ public class ArrayList<T> implements List<T> {
         es[newCount] = null;
     }
 
+    @Override
     public T[] toArray() {
         return Arrays.copyOfRange(elements, 0, count);
     }

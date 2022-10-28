@@ -27,19 +27,8 @@ public class LinkedList<T> implements List<T> {
         addAll(c);
     }
 
-    /**
-     * Removes the first occurrence of the specified element from this list,
-     * if it is present.  If this list does not contain the element, it is
-     * unchanged.  More formally, removes the element with the lowest index
-     * {@code i} such that
-     * {@code Objects.equals(o, get(i))}
-     * (if such an element exists).
-     *
-     * @param element element to be removed from this list, if present
-     */
     @Override
     public void remove(T element) {
-
         if (element == null) {
             for (Node<T> current = first; current != null; current = current.next) {
                 if (current.value == null) {
@@ -56,13 +45,6 @@ public class LinkedList<T> implements List<T> {
 
     }
 
-    /**
-     * Removes the element at the specified position in this list.  Shifts any
-     * subsequent elements to the left (subtracts one from their indices).
-     *
-     * @param index the index of the element to be removed
-     * @throws IndexOutOfBoundsException
-     */
     @Override
     public void removeAt(int index) {
         Objects.checkIndex(index, count);
@@ -74,9 +56,6 @@ public class LinkedList<T> implements List<T> {
         unlink(current);
     }
 
-    /**
-     * Unlinks non-null node x.
-     */
     private void unlink(Node<T> node) {
         final Node<T> next = node.next;
         final Node<T> prev = node.prev;
@@ -150,6 +129,7 @@ public class LinkedList<T> implements List<T> {
         }
     }
 
+    @Override
     public T[] toArray() {
         T[] result = (T[]) new Object[count];
         int i = 0;

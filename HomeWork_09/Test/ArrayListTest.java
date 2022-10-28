@@ -28,6 +28,7 @@ class ArrayListTest {
         arrayList.remove("a");
         Assertions.assertEquals("[]", Arrays.toString(arrayList.toArray()));
     }
+
     private void removeFromSingleElementArray() {
 
         arrayList = new ArrayList<>();
@@ -140,7 +141,6 @@ class ArrayListTest {
         arrayList.remove("a");
         Assertions.assertEquals("[a, a, a]", Arrays.toString(arrayList.toArray()));
     }
-
 
 
     @Test
