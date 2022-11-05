@@ -40,7 +40,7 @@ public class CarsRepositoryFileBasedImpl implements CarsRepository {
     }
 
     @Override
-    public int findNumUniqueCarsPricedFrom700To800Thousands() {
+    public Integer findNumUniqueCarsPricedFrom700To800Thousands() {
         try {
             return (int) new BufferedReader(new FileReader(fileName))
                     .lines()
@@ -69,7 +69,7 @@ public class CarsRepositoryFileBasedImpl implements CarsRepository {
     }
 
     @Override
-    public double findAveragePriceOfModelCamry() {
+    public Double findAveragePriceOfModelCamry() {
         try {
             return new BufferedReader(new FileReader(fileName))
                     .lines()
