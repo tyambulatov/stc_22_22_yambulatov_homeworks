@@ -1,0 +1,6 @@
+a|Camry|Black|1|10
+b|Camry|Black|1|100
+c|Camry|Black|1|100
+d|Camry|Black|1|100
+e|Camry|Black|1|1
+f|Camry|Black|1|100

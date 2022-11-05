@@ -1,0 +1,6 @@
+a|Camry|Black|1|700000
+b|Civic|Black|1|750000
+c|Camry|Black|1|750000
+d|Dedra|Black|1|750000
+e|Civic|Black|1|750000
+f|Civic|Black|1|800000

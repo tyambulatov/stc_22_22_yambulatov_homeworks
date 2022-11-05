@@ -1,0 +1,6 @@
+a|Camry|Black|1|700000
+b|Camry|Black|1|750000
+c|Camry|Black|1|750000
+d|Camry|Black|1|750000
+e|Camry|Black|1|750000
+f|Camry|Black|1|800000

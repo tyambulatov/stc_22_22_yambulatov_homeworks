@@ -1,0 +1,6 @@
+a|Civic|Black|1|700000
+b|Camry|Black|1|100
+c|Camra|Black|1|100
+d|Camrb|Black|1|100
+e|Camrc|Black|1|1
+f|Camrd|Black|1|100

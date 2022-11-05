@@ -1,0 +1,6 @@
+a|Camry|Navy|1|10
+b|Civic|Green|1|1000
+c|Camry|Blue|1|10
+d|Camry|Red|1|10
+e|Camry|Black|1|10
+f|Capri|Gray|1|1000000

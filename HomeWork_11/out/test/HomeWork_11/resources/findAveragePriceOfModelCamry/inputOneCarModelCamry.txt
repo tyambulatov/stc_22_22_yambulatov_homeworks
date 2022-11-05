@@ -1,0 +1,6 @@
+a|Delta|Navy|1|10
+b|Civic|Green|1|1000
+c|Dacia|Blue|1|100
+d|Dedra|Red|1|100000
+e|Camry|Black|1|10
+f|Capri|Gray|1|1000000

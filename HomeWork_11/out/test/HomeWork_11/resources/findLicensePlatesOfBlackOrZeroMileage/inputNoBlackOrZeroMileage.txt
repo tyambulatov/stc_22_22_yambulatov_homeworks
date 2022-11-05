@@ -1,0 +1,6 @@
+a|Camry|White|10|1
+b|Camry|Green|100|1
+c|Camry|Red|1000|1
+d|Camry|Green|100|1
+e|Camry|Red|100|1
+f|Camry|Navy|100|1
