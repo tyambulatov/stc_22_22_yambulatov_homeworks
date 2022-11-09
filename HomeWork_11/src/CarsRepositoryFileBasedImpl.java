@@ -1,85 +1,71 @@
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CarsRepositoryFileBasedImpl implements CarsRepository {
 
-    final private String fileName;
+    private final String fileName;
 
     public CarsRepositoryFileBasedImpl(String fileName) {
         this.fileName = fileName;
     }
 
-    private static final Function<String, Car> stringToCarMapper = currenCar -> {
-        String[] carData = currenCar.split("\\|");
+    private static Car parseCar(String carLine) {
+        String[] carData = carLine.split("\\|");
         final String licensePlate = carData[0];
+
         final String model = carData[1];
         final String colour = carData[2];
         final Integer mileage = Integer.parseInt(carData[3]);
         final Integer price = Integer.parseInt(carData[4]);
+
         return new Car(licensePlate, model, colour, mileage, price);
-    };
+    }
+
+    private Stream<Car> getAll() {
+        try (Stream<String> lines = Files.lines(Path.of(fileName))) {
+            return lines.map(CarsRepositoryFileBasedImpl::parseCar);
+        } catch (IOException e) {
+            throw new UnsuccessfulWorkWithFileException(e);
+        }
+    }
 
     @Override
     public List<String> findLicensePlatesOfBlackOrZeroMileage() {
-        try {
-            return new BufferedReader(new FileReader(fileName))
-                    .lines()
-                    .map(stringToCarMapper)
-                    .filter(car -> Objects.equals(car.getColour(), "Black") || car.getMileage().equals(0))
-                    .map(Car::getLicensePlate)
-                    .collect(Collectors.toList());
-        } catch (FileNotFoundException e) {
-            throw new UnsuccessfulWorkWithFileException(e);
-        }
+        return getAll()
+                .filter(car -> Objects.equals(car.getColour(), "Black") || car.getMileage().equals(0))
+                .map(Car::getLicensePlate)
+                .collect(Collectors.toList());
     }
 
     @Override
     public Integer findNumUniqueCarsPricedFrom700To800Thousands() {
-        try {
-            return (int) new BufferedReader(new FileReader(fileName))
-                    .lines()
-                    .map(stringToCarMapper)
-                    .filter(car -> 700_000 <= car.getPrice() && car.getPrice() <= 800_000)
-                    .map(Car::getModel)
-                    .distinct()
-                    .count();
-        } catch (FileNotFoundException e) {
-            throw new UnsuccessfulWorkWithFileException(e);
-        }
+        return (int) getAll()
+                .filter(car -> 700_000 <= car.getPrice() && car.getPrice() <= 800_000)
+                .map(Car::getModel)
+                .distinct()
+                .count();
     }
 
     @Override
     public String findColourOfMinPricedCar() {
-        try {
-            return new BufferedReader(new FileReader(fileName))
-                    .lines()
-                    .map(stringToCarMapper)
-                    .min(Comparator.comparingInt(Car::getPrice))
-                    .map(Car::getColour)
-                    .orElseThrow();
-        } catch (FileNotFoundException e) {
-            throw new UnsuccessfulWorkWithFileException(e);
-        }
+        return getAll()
+                .min(Comparator.comparingInt(Car::getPrice))
+                .map(Car::getColour)
+                .orElseThrow();
     }
 
     @Override
     public Double findAveragePriceOfModelCamry() {
-        try {
-            return new BufferedReader(new FileReader(fileName))
-                    .lines()
-                    .map(stringToCarMapper)
-                    .filter(car -> car.getModel().equals("Camry"))
-                    .mapToInt(Car::getPrice)
-                    .average()
-                    .orElseThrow();
-        } catch (FileNotFoundException e) {
-            throw new UnsuccessfulWorkWithFileException(e);
-        }
+        return getAll()
+                .filter(car -> car.getModel().equals("Camry"))
+                .mapToInt(Car::getPrice)
+                .average()
+                .orElseThrow();
     }
 }
