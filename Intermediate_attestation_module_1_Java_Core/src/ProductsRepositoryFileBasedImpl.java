@@ -17,20 +17,21 @@ public class ProductsRepositoryFileBasedImpl implements ProductsRepository {
     @Override
     public Product findById(Integer id) {
         return getAll()
-                .stream()
                 .filter(product -> product.getId().equals(id))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("File does not contain id: " + id));
     }
 
-    private List<Product> getAll() {
+    private Stream<Product> getAll() {
+        List<Product> productList;
         try (Stream<String> lines = Files.lines(Path.of(fileName))) {
-            return lines
+            productList = lines
                     .map(ProductsRepositoryFileBasedImpl::parseProduct)
                     .collect(Collectors.toList());
         } catch (IOException e) {
             throw new UnsuccessfulWorkWithFileException(e);
         }
+        return productList.stream();
     }
 
     private static Product parseProduct(String productLine) {
@@ -47,7 +48,6 @@ public class ProductsRepositoryFileBasedImpl implements ProductsRepository {
     @Override
     public List<Product> findAllByTitleLike(String title) {
         return getAll()
-                .stream()
                 .filter(product -> product.getTitle().toLowerCase().contains(title.toLowerCase()))
                 .collect(Collectors.toList());
     }
@@ -62,7 +62,6 @@ public class ProductsRepositoryFileBasedImpl implements ProductsRepository {
         final Integer idToBeFound = updatedProduct.getId();
 
         return getAll()
-                .stream()
                 .map(product -> product.getId().equals(idToBeFound) ? updatedProduct : product)
                 .map(Product::toLine)
                 .toList();

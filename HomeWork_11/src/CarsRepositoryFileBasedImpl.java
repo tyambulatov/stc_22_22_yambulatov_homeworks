@@ -3,7 +3,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -13,6 +12,18 @@ public class CarsRepositoryFileBasedImpl implements CarsRepository {
 
     public CarsRepositoryFileBasedImpl(String fileName) {
         this.fileName = fileName;
+    }
+
+    private Stream<Car> getAll() {
+        List<Car> carList;
+        try (Stream<String> lines = Files.lines(Path.of(fileName))) {
+            carList = lines
+                    .map(CarsRepositoryFileBasedImpl::parseCar)
+                    .collect(Collectors.toList());
+        } catch (IOException e) {
+            throw new UnsuccessfulWorkWithFileException(e);
+        }
+        return carList.stream();
     }
 
     private static Car parseCar(String carLine) {
@@ -27,18 +38,34 @@ public class CarsRepositoryFileBasedImpl implements CarsRepository {
         return new Car(licensePlate, model, colour, mileage, price);
     }
 
-    private Stream<Car> getAll() {
-        try (Stream<String> lines = Files.lines(Path.of(fileName))) {
-            return lines.map(CarsRepositoryFileBasedImpl::parseCar);
-        } catch (IOException e) {
-            throw new UnsuccessfulWorkWithFileException(e);
-        }
+    @Override
+    public List<String> findLicensePlatesCarsModel(String model) {
+        return getAll()
+                .filter(car -> car.getModel().equals(model))
+                .map(Car::getLicensePlate)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<String> findLicensePlatesOfBlackOrZeroMileage() {
+    public List<String> findLicensePlatesCarsColour(String colour) {
         return getAll()
-                .filter(car -> Objects.equals(car.getColour(), "Black") || car.getMileage().equals(0))
+                .filter(car -> car.getColour().equals(colour))
+                .map(Car::getLicensePlate)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findLicensePlatesCarsMileage(Integer mileage) {
+        return getAll()
+                .filter(car -> car.getMileage().equals(mileage))
+                .map(Car::getLicensePlate)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<String> findLicensePlatesCarsPrice(Integer price) {
+        return getAll()
+                .filter(car -> car.getPrice().equals(price))
                 .map(Car::getLicensePlate)
                 .collect(Collectors.toList());
     }
