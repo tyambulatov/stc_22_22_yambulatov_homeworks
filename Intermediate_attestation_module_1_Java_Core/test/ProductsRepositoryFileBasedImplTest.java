@@ -136,11 +136,10 @@ class ProductsRepositoryFileBasedImplTest {
     @Test
     void update() {
         final String multipleProductsFilePath = getFilePath("inputMultipleProducts.txt");
-        final String originalFileLines = """
-                1|Абрикос|214.9|43
-                2|Абрикосы|197.0|39
-                3|Айва|159.6|32
-                4|Апельсины|198.8|31""";
+        final String originalFileLines = "1|Абрикос|214.9|43\n" +
+                "2|Абрикосы|197.0|39\n" +
+                "3|Айва|159.6|32\n" +
+                "4|Апельсины|198.8|31";
         reformInputFileToOriginal(multipleProductsFilePath);
         ProductsRepository productsRepository = new ProductsRepositoryFileBasedImpl(multipleProductsFilePath);
 
@@ -161,22 +160,20 @@ class ProductsRepositoryFileBasedImplTest {
         Product productUpdatedPrice = productsRepository.findById(1);
         productUpdatedPrice.setPrice(10d);
         productsRepository.update(productUpdatedPrice);
-        String expectedLines = """
-                1|Абрикос|10.0|43
-                2|Абрикосы|197.0|39
-                3|Айва|159.6|32
-                4|Апельсины|198.8|31""";
+        String expectedLines = "1|Абрикос|10.0|43\n" +
+                "2|Абрикосы|197.0|39\n" +
+                "3|Айва|159.6|32\n" +
+                "4|Апельсины|198.8|31";
         Assertions.assertEquals(expectedLines, getAll(multipleProductsFilePath));
         reformInputFileToOriginal(multipleProductsFilePath);
 
         Product productUpdatedCount = productsRepository.findById(1);
         productUpdatedCount.setCount(10);
         productsRepository.update(productUpdatedCount);
-        expectedLines = """
-                1|Абрикос|214.9|10
-                2|Абрикосы|197.0|39
-                3|Айва|159.6|32
-                4|Апельсины|198.8|31""";
+        expectedLines = "1|Абрикос|214.9|10\n" +
+                "2|Абрикосы|197.0|39\n" +
+                "3|Айва|159.6|32\n" +
+                "4|Апельсины|198.8|31";
         Assertions.assertEquals(expectedLines, getAll(multipleProductsFilePath));
         reformInputFileToOriginal(multipleProductsFilePath);
 
@@ -184,11 +181,10 @@ class ProductsRepositoryFileBasedImplTest {
         productUpdatedPriceAndCount.setPrice(10d);
         productUpdatedPriceAndCount.setCount(100);
         productsRepository.update(productUpdatedPriceAndCount);
-        expectedLines = """
-                1|Абрикос|10.0|100
-                2|Абрикосы|197.0|39
-                3|Айва|159.6|32
-                4|Апельсины|198.8|31""";
+        expectedLines = "1|Абрикос|10.0|100\n" +
+                "2|Абрикосы|197.0|39\n" +
+                "3|Айва|159.6|32\n" +
+                "4|Апельсины|198.8|31";
         Assertions.assertEquals(expectedLines, getAll(multipleProductsFilePath));
         reformInputFileToOriginal(multipleProductsFilePath);
     }
