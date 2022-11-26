@@ -1,0 +1,1 @@
+Main-class: ru.inno.util.app.Main
