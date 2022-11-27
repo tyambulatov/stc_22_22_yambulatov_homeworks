@@ -5,7 +5,7 @@ import ru.inno.cars.models.Car;
 import java.util.List;
 
 public interface CarsRepository {
-    void save(Car car);
+    void saveAll(List<Car> cars);
 
     List<Car> findAll();
 }

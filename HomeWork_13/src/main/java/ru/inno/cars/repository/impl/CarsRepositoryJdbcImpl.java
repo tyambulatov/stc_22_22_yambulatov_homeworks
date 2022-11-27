@@ -25,27 +25,36 @@ public class CarsRepositoryJdbcImpl implements CarsRepository {
 
     private final DataSource dataSource;
 
+    private final int batchSize;
+
     @Override
-    public void save(Car car) {
+    public void saveAll(List<Car> cars) {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_INSERT)) {
-            statement.setString(1, car.getManufacturer());
-            statement.setString(2, car.getModel());
-            statement.setInt(3, car.getModelYear());
-            statement.setString(4, car.getExteriorColor());
-            statement.setInt(5, car.getMileage());
-            statement.setString(6, car.getVin());
 
-            int affectedRows = statement.executeUpdate();
+            int count = 0;
 
-            if (affectedRows != 1) {
-                throw new SQLException("Can't insert Car");
+            for (Car car : cars) {
+                statement.setString(1, car.getManufacturer());
+                statement.setString(2, car.getModel());
+                statement.setInt(3, car.getModelYear());
+                statement.setString(4, car.getExteriorColor());
+                statement.setInt(5, car.getMileage());
+                statement.setString(6, car.getVin());
+
+                statement.addBatch();
+                count++;
+
+                if (count % batchSize == 0 || count == cars.size()) {
+                    statement.executeBatch();
+                }
             }
 
         } catch (SQLException e) {
             throw new IllegalStateException(e);
         }
     }
+
 
     @Override
     public List<Car> findAll() {
