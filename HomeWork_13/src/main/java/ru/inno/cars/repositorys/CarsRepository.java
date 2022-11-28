@@ -1,4 +1,4 @@
-package ru.inno.cars.repository;
+package ru.inno.cars.repositorys;
 
 import ru.inno.cars.models.Car;
 

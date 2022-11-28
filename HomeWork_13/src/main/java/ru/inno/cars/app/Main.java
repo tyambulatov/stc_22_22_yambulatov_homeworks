@@ -3,7 +3,9 @@ package ru.inno.cars.app;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
-import ru.inno.cars.config.Config;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import ru.inno.cars.config.AppSpringConfig;
 import ru.inno.cars.service.CarsService;
 
 @Parameters(separators = "=")
@@ -14,13 +16,14 @@ public class Main {
 
     public static void main(String[] args) {
         Main main = new Main();
-        fillAction(main, args);
-        CarsService carsService = new Config().getCarsService();
+        setAction(main, args);
+        ApplicationContext context = new AnnotationConfigApplicationContext(AppSpringConfig.class);
+        CarsService carsService = context.getBean(CarsService.class);
 
         performAction(carsService, main.action);
     }
 
-    private static void fillAction(Main main, String[] args) {
+    private static void setAction(Main main, String[] args) {
         JCommander.newBuilder()
                 .addObject(main)
                 .build()

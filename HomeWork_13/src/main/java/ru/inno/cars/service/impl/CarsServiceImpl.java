@@ -1,20 +1,27 @@
 package ru.inno.cars.service.impl;
 
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 import ru.inno.cars.models.Car;
-import ru.inno.cars.repository.CarsRepository;
+import ru.inno.cars.repositorys.CarsRepository;
 import ru.inno.cars.service.CarsService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-@RequiredArgsConstructor
-public class CarsServiceJdbcImpl implements CarsService {
+@Service
+public class CarsServiceImpl implements CarsService {
 
     private final CarsRepository carsRepository;
 
-    private final String inputFinishLine;
+    private final String inputEndLine;
+
+    public CarsServiceImpl(CarsRepository carsRepository,
+                           @Value("${input.end.line}") String inputEndLine) {
+        this.carsRepository = carsRepository;
+        this.inputEndLine = inputEndLine;
+    }
 
     @Override
     public void printCars() {
@@ -30,7 +37,7 @@ public class CarsServiceJdbcImpl implements CarsService {
     }
 
     private void printMessage() {
-        System.out.println("Enter car lines separated by next line.\nTo indicate end of input type keyword: '" + inputFinishLine + "'\n" +
+        System.out.println("Enter car lines separated by next line.\nTo indicate end of input type keyword: '" + inputEndLine + "'\n" +
                 "Car line consists of data separated by comma in format:\n" +
                 "'manufacturer','model','model year','exterior color','mileage','vin'");
     }
@@ -40,7 +47,7 @@ public class CarsServiceJdbcImpl implements CarsService {
 
         Scanner scanner = new Scanner(System.in);
         String carLine;
-        while (!(carLine = scanner.nextLine()).equals(inputFinishLine)) {
+        while (!(carLine = scanner.nextLine()).equals(inputEndLine)) {
             Car car = parseCar(carLine);
             carList.add(car);
         }
