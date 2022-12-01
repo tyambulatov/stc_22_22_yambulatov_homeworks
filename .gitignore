@@ -6,7 +6,7 @@ node_modules
 .mtj.tmp/
 
 # Package Files #
-*.jar
+# *.jar
 *.war
 *.ear
 
@@ -28,7 +28,7 @@ effective-settings.xml
 *.iml
 *.log
 *.lck
-*.jar
+# *.jar
 */dependency-reduced-pom.xml
 .DS_Store
 
