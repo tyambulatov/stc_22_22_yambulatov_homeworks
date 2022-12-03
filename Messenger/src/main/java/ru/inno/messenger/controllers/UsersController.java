@@ -35,7 +35,7 @@ public class UsersController {
     }
 
     @GetMapping("/{user-id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getUserPage(@AuthenticationPrincipal CustomUserDetails userDetails,
                               @PathVariable("user-id") Long userId,
                               Model model) {
