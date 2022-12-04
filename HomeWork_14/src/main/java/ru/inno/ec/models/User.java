@@ -1,7 +1,5 @@
 package ru.inno.ec.models;
 
-//import javax.persistence.*;
-
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Check;

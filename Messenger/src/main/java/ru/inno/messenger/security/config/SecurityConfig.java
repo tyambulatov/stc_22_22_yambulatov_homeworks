@@ -35,13 +35,21 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests().antMatchers("/signUp/**").permitAll();
         httpSecurity.authorizeHttpRequests().antMatchers("/profile/**").authenticated();
 
-        httpSecurity.authorizeHttpRequests().antMatchers("/chats/**").authenticated();
-
-        httpSecurity.authorizeHttpRequests().antMatchers("/messages").hasAuthority("ADMIN");
-        httpSecurity.authorizeHttpRequests().antMatchers("/messages/**").authenticated();
-
         httpSecurity.authorizeHttpRequests().antMatchers("/users").hasAuthority("ADMIN");
-        httpSecurity.authorizeHttpRequests().antMatchers("/users/**").authenticated();
+        httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}").hasAnyAuthority("ADMIN", "USER");
+        httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}/delete").hasAuthority("ADMIN");
+        httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}/update").hasAuthority("ADMIN");
+        httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}/addUserToChat").hasAnyAuthority("ADMIN", "USER");
+        httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}/deleteUserFromChat").hasAnyAuthority("ADMIN", "USER");
+
+        httpSecurity.authorizeHttpRequests().antMatchers("/chats").hasAnyAuthority("ADMIN", "USER");
+        httpSecurity.authorizeHttpRequests().antMatchers("/chats/{\\d+}").hasAnyAuthority("ADMIN", "USER");
+        httpSecurity.authorizeHttpRequests().antMatchers("/chats/{\\d+}/delete").hasAuthority("ADMIN");
+        httpSecurity.authorizeHttpRequests().antMatchers("/chats/{\\d+}/deleteUserFromChat").hasAnyAuthority("ADMIN", "USER");
+        httpSecurity.authorizeHttpRequests().antMatchers("/chats/{\\d+}/addUserToChat").hasAnyAuthority("ADMIN", "USER");
+        httpSecurity.authorizeHttpRequests().antMatchers("/chats/{\\d+}/update").hasAnyAuthority("ADMIN", "USER");
+
+        httpSecurity.authorizeHttpRequests().antMatchers("/messages/**").hasAnyAuthority("ADMIN", "USER");
 
         httpSecurity.rememberMe()
                 .rememberMeParameter("rememberMe")

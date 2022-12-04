@@ -42,9 +42,7 @@
             <td>
                 <#if role == 'ADMIN'>
                     <a href="/chats/${chat.id}">Перейти</a>
-
                     <a href="/users/${user.id}/deleteUserFromChat?chat-id=${chat.id}">Выйти из чата</a>
-
                 </#if>
             </td>
         </tr>

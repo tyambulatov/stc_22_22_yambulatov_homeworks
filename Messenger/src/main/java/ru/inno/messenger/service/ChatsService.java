@@ -25,6 +25,4 @@ public interface ChatsService {
 
     List<Message> getChatMessages(Long chatId);
 
-    void addMessageToChat(Long chatId, Message MessageId);
-
 }

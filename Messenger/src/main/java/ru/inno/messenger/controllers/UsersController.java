@@ -1,7 +1,6 @@
 package ru.inno.messenger.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +34,6 @@ public class UsersController {
     }
 
     @GetMapping("/{user-id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String getUserPage(@AuthenticationPrincipal CustomUserDetails userDetails,
                               @PathVariable("user-id") Long userId,
                               Model model) {
@@ -54,7 +52,6 @@ public class UsersController {
         return returnToPreviousPage(request);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{user-id}/delete")
     public String deleteUser(HttpServletRequest request,
                              @PathVariable("user-id") Long userId) {

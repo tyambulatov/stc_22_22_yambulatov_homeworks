@@ -6,7 +6,7 @@ import ru.inno.messenger.models.Message;
 import java.util.List;
 
 public interface MessagesService {
-    void addMessage(Long chatId, Message message);
+    void addMessageToChat(Long chatId, Message message);
 
     void deleteMessage(Long messageId);
 

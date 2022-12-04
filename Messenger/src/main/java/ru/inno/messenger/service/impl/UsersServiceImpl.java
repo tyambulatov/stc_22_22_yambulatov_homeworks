@@ -12,7 +12,6 @@ import ru.inno.messenger.service.UsersService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -58,12 +57,9 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public void deleteUser(Long userId) {
         User userForDelete = usersRepository.findById(userId).orElseThrow();
-        Set<Chat> userChats = userForDelete.getChats();
-        for (Chat chat : userChats) {
-            chat.getUsers().remove(userForDelete);
-            chatsRepository.save(chat);
-        }
         userForDelete.getChats().clear();
+
+        usersRepository.save(userForDelete);
         usersRepository.delete(userForDelete);
     }
 
@@ -77,10 +73,8 @@ public class UsersServiceImpl implements UsersService {
     public void deleteUserFromChat(Long userId, Long chatId) {
         User user = usersRepository.findById(userId).orElseThrow();
         Chat chat = chatsRepository.findById(chatId).orElseThrow();
-        // test
         user.getChats().remove(chat);
         chat.getUsers().remove(user);
-
         usersRepository.save(user);
         chatsRepository.save(chat);
     }
@@ -91,15 +85,14 @@ public class UsersServiceImpl implements UsersService {
         User user = usersRepository.findById(userId).orElseThrow();
 
         user.getChats().add(chat);
-
         usersRepository.save(user);
     }
 
     @Override
     public List<Chat> getChatsWithoutUser(Long userId) {
         User user = usersRepository.findById(userId).orElseThrow();
-        List<Chat> chats = chatsRepository.findAll();
-        chats.removeAll(user.getChats());
-        return chats;
+        List<Chat> allChats = chatsRepository.findAll();
+        allChats.removeAll(user.getChats());
+        return allChats;
     }
 }

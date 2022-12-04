@@ -9,6 +9,7 @@ import ru.inno.messenger.models.Chat;
 import ru.inno.messenger.models.Message;
 import ru.inno.messenger.security.details.CustomUserDetails;
 import ru.inno.messenger.service.ChatsService;
+import ru.inno.messenger.service.MessagesService;
 import ru.inno.messenger.service.UsersService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +25,8 @@ public class ChatsController {
 
     private final UsersService usersService;
 
+    private final MessagesService messagesService;
+
     @GetMapping
     public String getChatsPage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
         model.addAttribute("role", userDetails.getUser().getRole());
@@ -37,7 +40,6 @@ public class ChatsController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addChat(HttpServletRequest request,
                           Chat chat) {
         chatsService.addChat(chat);
@@ -56,8 +58,15 @@ public class ChatsController {
         return "chats/chat_page";
     }
 
-    // дублирование с userController
-    @PostMapping("/{chat-id}/users")
+    @GetMapping("/{chat-id}/deleteUserFromChat")
+    public String deleteUserFromChat(HttpServletRequest request,
+                                     @PathVariable("chat-id") Long chatId,
+                                     @RequestParam("user-id") Long userId) {
+        usersService.deleteUserFromChat(userId, chatId);
+        return returnToPreviousPage(request);
+    }
+
+    @PostMapping("/{chat-id}/addUserToChat")
     public String addUserToChat(HttpServletRequest request,
                                 @PathVariable("chat-id") Long chatId,
                                 @RequestParam("user-id") Long userId) {
@@ -69,7 +78,7 @@ public class ChatsController {
     public String addMessageToChat(HttpServletRequest request,
                                    @PathVariable("chat-id") Long chatId,
                                    Message message) {
-        chatsService.addMessageToChat(chatId, message);
+        messagesService.addMessageToChat(chatId, message);
         return returnToPreviousPage(request);
     }
 

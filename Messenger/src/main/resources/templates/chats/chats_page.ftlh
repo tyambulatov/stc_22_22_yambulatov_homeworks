@@ -23,7 +23,6 @@
                 <td>
                     <a href="/chats/${chat.id}">Перейти</a>
                     <a href="/chats/${chat.id}/delete">Удалить</a>
-
                 </td>
             </tr>
         </#list>

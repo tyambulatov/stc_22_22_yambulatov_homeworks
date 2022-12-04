@@ -31,7 +31,7 @@ public class MessagesController {
     public String addMessage(HttpServletRequest request,
                              Message message,
                              @RequestParam("chat-id") Long chatId) {
-        messagesService.addMessage(chatId, message);
+        messagesService.addMessageToChat(chatId, message);
         return returnToPreviousPage(request);
     }
 

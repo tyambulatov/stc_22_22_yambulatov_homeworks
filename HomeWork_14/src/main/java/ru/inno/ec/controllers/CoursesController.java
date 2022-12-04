@@ -24,7 +24,7 @@ public class CoursesController {
     }
 
     @PostMapping("/courses")
-    public String addUser(CourseForm courseForm) {
+    public String addCourse(CourseForm courseForm) {
         coursesService.addCourse(courseForm);
         return "redirect:/courses";
     }

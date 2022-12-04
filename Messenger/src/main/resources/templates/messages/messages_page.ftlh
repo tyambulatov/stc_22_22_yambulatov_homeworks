@@ -13,15 +13,15 @@
 <h2>Все сообщения</h2>
 <table>
     <tr>
-        <th>Содержание</th>
         <th>Чат</th>
+        <th>Содержание</th>
         <th>Время отправки</th>
         <th>Действие</th>
     </tr>
     <#list messages as message>
         <tr>
-            <td>${message.content}</td>
             <td>${message.chat.name}</td>
+            <td>${message.content}</td>
             <td>${message.sendTime}</td>
             <td>
                 <a href="/messages/${message.id}">Перейти</a>

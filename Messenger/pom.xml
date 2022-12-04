@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.inno</groupId>
     <artifactId>Messenger</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>Messenger</name>
     <description>Messenger</description>
     <properties>
@@ -52,6 +52,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
         <dependency>
             <groupId>javax.validation</groupId>
@@ -82,6 +83,4 @@
             </plugin>
         </plugins>
     </build>
-
-
 </project>

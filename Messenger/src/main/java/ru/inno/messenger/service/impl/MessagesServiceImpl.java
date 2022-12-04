@@ -19,26 +19,21 @@ public class MessagesServiceImpl implements MessagesService {
     private final ChatsRepository chatsRepository;
 
     @Override
-    public void addMessage(Long chatId, Message message) {
+    public void addMessageToChat(Long chatId, Message message) {
         Chat chat = chatsRepository.findById(chatId).orElseThrow();
-
         chat.getMessages().add(message);
         message.setChat(chat);
 
-        messagesRepository.save(message);
         chatsRepository.save(chat);
+        messagesRepository.save(message);
     }
 
     @Override
     public void deleteMessage(Long messageId) {
         Message message = messagesRepository.findById(messageId).orElseThrow();
         Chat chat = message.getChat();
-
-        if (chat != null) {
-            chat.getMessages().remove(message);
-            chatsRepository.save(chat);
-        }
-
+        chat.getMessages().remove(message);
+        chatsRepository.save(chat);
         messagesRepository.delete(message);
     }
 
@@ -50,10 +45,8 @@ public class MessagesServiceImpl implements MessagesService {
     @Override
     public void updateMessage(Long messageId, Message message) {
         Message messageForUpdate = messagesRepository.findById(messageId).orElseThrow();
-
         messageForUpdate.setContent(message.getContent());
         messageForUpdate.setSendTime(message.getSendTime());
-
         messagesRepository.save(messageForUpdate);
     }
 

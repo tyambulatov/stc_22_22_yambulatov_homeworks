@@ -50,7 +50,7 @@
 </table>
 <#if role == 'ADMIN'>
 <h2>Добавить пользователя в чат</h2>
-<form action="/chats/${chat.id}/users" method="post">
+<form action="/chats/${chat.id}/addUserToChat" method="post">
     <label>Пользователи
         <select name="user-id">
             <#list notInChatUsers as user>
