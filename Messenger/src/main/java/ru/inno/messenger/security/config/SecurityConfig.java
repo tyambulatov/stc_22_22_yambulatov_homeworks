@@ -2,6 +2,7 @@ package ru.inno.messenger.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -36,8 +37,8 @@ public class SecurityConfig {
 
         httpSecurity.authorizeHttpRequests().antMatchers("/users").hasAuthority("ADMIN");
         httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}").authenticated();
-        httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}/delete").hasAuthority("ADMIN");
         httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}/update").hasAuthority("ADMIN");
+        httpSecurity.authorizeHttpRequests().antMatchers("/users/{\\d+}/delete").hasAuthority("ADMIN");
 
         httpSecurity.authorizeHttpRequests().antMatchers("/chats").authenticated();
         httpSecurity.authorizeHttpRequests().antMatchers("/chats/{\\d+}").authenticated();
@@ -46,6 +47,8 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests().antMatchers("/chats/{\\d+}/users").authenticated();
         httpSecurity.authorizeHttpRequests().antMatchers("/chats/{\\d+}/users/{\\d+}").authenticated();
 
+        httpSecurity.authorizeHttpRequests().antMatchers(HttpMethod.GET, "/messages").hasAuthority("ADMIN");
+        httpSecurity.authorizeHttpRequests().antMatchers(HttpMethod.POST, "/messages").authenticated();
         httpSecurity.authorizeHttpRequests().antMatchers("/messages/**").authenticated();
 
         httpSecurity.rememberMe()
