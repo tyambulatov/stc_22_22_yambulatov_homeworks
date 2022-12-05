@@ -4,9 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import ru.inno.messenger.dto.UserForm;
 import ru.inno.messenger.security.details.CustomUserDetails;
+import ru.inno.messenger.service.ChatsService;
 import ru.inno.messenger.service.UsersService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +24,8 @@ public class UsersController {
 
     private final UsersService usersService;
 
+    private final ChatsService chatsService;
+
     @GetMapping
     public String getUsersPage(Model model) {
         model.addAttribute("users", usersService.getAllUsers());
@@ -27,51 +33,35 @@ public class UsersController {
     }
 
     @PostMapping
-    public String addUser(HttpServletRequest request,
-                          UserForm user) {
+    public String addUser(UserForm user,
+                          HttpServletRequest request) {
         usersService.addUser(user);
         return returnToPreviousPage(request);
     }
 
-    @GetMapping("/{user-id}")
+    @GetMapping("/{userId}")
     public String getUserPage(@AuthenticationPrincipal CustomUserDetails userDetails,
-                              @PathVariable("user-id") Long userId,
+                              @PathVariable("userId") Long userId,
                               Model model) {
         model.addAttribute("user", usersService.getUser(userId));
-        model.addAttribute("userChats", usersService.getUserChats(userId));
-        model.addAttribute("chatsWithoutUser", usersService.getChatsWithoutUser(userId));
+        model.addAttribute("userChats", chatsService.getUserChats(userId));
+        model.addAttribute("chatsWithoutUser", chatsService.getChatsWithoutUser(userId));
         model.addAttribute("role", userDetails.getUser().getRole());
         return "users/user_page";
     }
 
-    @PostMapping("/{user-id}/update")
-    public String updateUser(HttpServletRequest request,
-                             @PathVariable("user-id") Long userId,
-                             UserForm user) {
+    @PostMapping("/{userId}/update")
+    public String updateUser(@PathVariable("userId") Long userId,
+                             UserForm user,
+                             HttpServletRequest request) {
         usersService.updateUser(userId, user);
         return returnToPreviousPage(request);
     }
 
-    @GetMapping("/{user-id}/delete")
-    public String deleteUser(HttpServletRequest request,
-                             @PathVariable("user-id") Long userId) {
+    @GetMapping("/{userId}/delete")
+    public String deleteUser(@PathVariable("userId") Long userId,
+                             HttpServletRequest request) {
         usersService.deleteUser(userId);
-        return returnToPreviousPage(request);
-    }
-
-    @PostMapping("/{user-id}/addUserToChat")
-    public String addUserToChat(HttpServletRequest request,
-                                @PathVariable("user-id") Long userId,
-                                @RequestParam("chat-id") Long chatId) {
-        usersService.addUserToChat(userId, chatId);
-        return returnToPreviousPage(request);
-    }
-
-    @GetMapping("/{user-id}/deleteUserFromChat")
-    public String deleteUserFromChat(HttpServletRequest request,
-                                    @PathVariable("user-id") Long userId,
-                                    @RequestParam("chat-id") Long chatId) {
-        usersService.deleteUserFromChat(userId, chatId);
         return returnToPreviousPage(request);
     }
 }

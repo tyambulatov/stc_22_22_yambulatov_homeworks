@@ -42,25 +42,11 @@
             <td>
                 <#if role == 'ADMIN'>
                     <a href="/chats/${chat.id}">Перейти</a>
-                    <a href="/users/${user.id}/deleteUserFromChat?chat-id=${chat.id}">Выйти из чата</a>
+                    <a href="/chats/${chat.id}/users/${userId}/delete">Выйти из чата</a>
                 </#if>
             </td>
         </tr>
     </#list>
 </table>
-<#if role == 'ADMIN'>
-    <h2>Вступить в чат</h2>
-    <form action="/users/${user.id}/addUserToChat" method="post">
-        <label>Название чата
-            <select name="chat-id">
-                <#list chatsWithoutUser as chat>
-                    <option value="${chat.id}">${chat.name}</option>
-                </#list>
-            </select>
-        </label>
-        <br>
-        <input type="submit" value="Добавить">
-    </form>
-</#if>
 </body>
 </html>

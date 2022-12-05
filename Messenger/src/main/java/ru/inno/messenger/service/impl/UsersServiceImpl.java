@@ -4,13 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.inno.messenger.dto.UserForm;
-import ru.inno.messenger.models.Chat;
 import ru.inno.messenger.models.User;
-import ru.inno.messenger.repositories.ChatsRepository;
 import ru.inno.messenger.repositories.UsersRepository;
 import ru.inno.messenger.service.UsersService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,8 +15,6 @@ import java.util.List;
 public class UsersServiceImpl implements UsersService {
 
     private final UsersRepository usersRepository;
-
-    private final ChatsRepository chatsRepository;
 
     @Override
     public List<User> getAllUsers() {
@@ -61,38 +56,5 @@ public class UsersServiceImpl implements UsersService {
 
         usersRepository.save(userForDelete);
         usersRepository.delete(userForDelete);
-    }
-
-    @Override
-    public List<Chat> getUserChats(Long userId) {
-        User user = usersRepository.findById(userId).orElseThrow();
-        return new ArrayList<>(user.getChats());
-    }
-
-    @Override
-    public void deleteUserFromChat(Long userId, Long chatId) {
-        User user = usersRepository.findById(userId).orElseThrow();
-        Chat chat = chatsRepository.findById(chatId).orElseThrow();
-        user.getChats().remove(chat);
-        chat.getUsers().remove(user);
-        usersRepository.save(user);
-        chatsRepository.save(chat);
-    }
-
-    @Override
-    public void addUserToChat(Long userId, Long chatId) {
-        Chat chat = chatsRepository.findById(chatId).orElseThrow();
-        User user = usersRepository.findById(userId).orElseThrow();
-
-        user.getChats().add(chat);
-        usersRepository.save(user);
-    }
-
-    @Override
-    public List<Chat> getChatsWithoutUser(Long userId) {
-        User user = usersRepository.findById(userId).orElseThrow();
-        List<Chat> allChats = chatsRepository.findAll();
-        allChats.removeAll(user.getChats());
-        return allChats;
     }
 }

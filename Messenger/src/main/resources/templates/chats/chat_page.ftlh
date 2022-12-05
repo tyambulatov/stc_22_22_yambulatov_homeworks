@@ -12,7 +12,6 @@
 <#include "../header/navigation.ftlh">
 <h1>Чат: ${chat.name}</h1>
 <h2>Редактирование чата</h2>
-
 <form action="/chats/${chat.id}/update" method="post">
     <label>
         Название:
@@ -42,25 +41,25 @@
             <td>
                 <a href="/users/${user.id}">Перейти</a>
                 <#if role == 'ADMIN'>
-                    <a href="/users/${user.id}/deleteUserFromChat?chat-id=${chat.id}">Удалить из чата</a>
+                    <a href="/chats/${chat.id}/users/${user.id}/delete">Удалить из чата</a>
                 </#if>
             </td>
         </tr>
     </#list>
 </table>
 <#if role == 'ADMIN'>
-<h2>Добавить пользователя в чат</h2>
-<form action="/chats/${chat.id}/addUserToChat" method="post">
-    <label>Пользователи
-        <select name="user-id">
-            <#list notInChatUsers as user>
-                <option value="${user.id}">${user.firstName} ${user.lastName}</option>
-            </#list>
-        </select>
-    </label>
-    <br>
-    <input type="submit" value="Добавить">
-</form>
+    <h2>Добавить пользователя в чат</h2>
+    <form action="/chats/${chat.id}/users" method="post">
+        <label>Пользователи
+            <select name="user-id">
+                <#list notInChatUsers as user>
+                    <option value="${user.id}">${user.firstName} ${user.lastName}</option>
+                </#list>
+            </select>
+        </label>
+        <br>
+        <input type="submit" value="Добавить">
+    </form>
 </#if>
 <h2>Сообщения чата</h2>
 <table>
@@ -80,16 +79,19 @@
         </tr>
     </#list>
 </table>
-
 <h2>Написать сообщение в чат</h2>
-<form action="/chats/${chat.id}/messages" method="post">
+<form action="/messages" method="post">
     <label>
-        Название:
+        Номер чата:
+        <input type="number" name="chat-id" value=${chat.id}>
+    </label>
+    <br>
+    <label>
+        Сообщение:
         <input type="text" name="content" placeholder="Сообщение">
     </label>
     <br>
     <input autofocus type="submit" value="Добавить">
 </form>
-
 </body>
 </html>

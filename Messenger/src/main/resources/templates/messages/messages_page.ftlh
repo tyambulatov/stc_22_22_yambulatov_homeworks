@@ -46,6 +46,5 @@
     <br>
     <input autofocus type="submit" value="Добавить"/>
 </form>
-
 </body>
 </html>

@@ -6,15 +6,17 @@ import ru.inno.messenger.models.Message;
 import java.util.List;
 
 public interface MessagesService {
-    void addMessageToChat(Long chatId, Message message);
+    List<Message> getAllMessages();
 
-    void deleteMessage(Long messageId);
+    List<Chat> getAllChats();
+
+    void addMessageToChat(Long chatId, Message message);
 
     Message getMessage(Long messageId);
 
     void updateMessage(Long messageId, Message message);
 
-    List<Chat> getAllChats();
+    void deleteMessage(Long messageId);
 
-    List<Message> getAllMessagesOrderedByChat();
+    List<Message> getChatMessages(Long chatId);
 }

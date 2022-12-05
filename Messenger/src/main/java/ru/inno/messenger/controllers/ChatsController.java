@@ -4,13 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.inno.messenger.models.Chat;
-import ru.inno.messenger.models.Message;
 import ru.inno.messenger.security.details.CustomUserDetails;
 import ru.inno.messenger.service.ChatsService;
 import ru.inno.messenger.service.MessagesService;
-import ru.inno.messenger.service.UsersService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,77 +25,68 @@ public class ChatsController {
 
     private final ChatsService chatsService;
 
-    private final UsersService usersService;
-
     private final MessagesService messagesService;
 
     @GetMapping
-    public String getChatsPage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
-        model.addAttribute("role", userDetails.getUser().getRole());
+    public String getChatsPage(@AuthenticationPrincipal CustomUserDetails userDetails,
+                               Model model) {
         model.addAttribute("chats", chatsService.getAllChats());
 
         Long userId = userDetails.getUser().getId();
         model.addAttribute("userId", userId);
-        model.addAttribute("userChats", usersService.getUserChats(userId));
-        model.addAttribute("chatsWithoutUser", usersService.getChatsWithoutUser(userId));
+        model.addAttribute("userChats", chatsService.getUserChats(userId));
+        model.addAttribute("chatsWithoutUser", chatsService.getChatsWithoutUser(userId));
+        model.addAttribute("role", userDetails.getUser().getRole());
         return "chats/chats_page";
     }
 
     @PostMapping
-    public String addChat(HttpServletRequest request,
-                          Chat chat) {
+    public String addChat(Chat chat,
+                          HttpServletRequest request) {
         chatsService.addChat(chat);
         return returnToPreviousPage(request);
     }
 
-    @GetMapping("/{chat-id}")
+    @GetMapping("/{chatId}")
     public String getChatPage(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                @PathVariable("chat-id") Long chatId,
+                              @PathVariable("chatId") Long chatId,
                               Model model) {
         model.addAttribute("chat", chatsService.getChat(chatId));
         model.addAttribute("notInChatUsers", chatsService.getNotInChatUsers(chatId));
         model.addAttribute("inChatUsers", chatsService.getInChatUsers(chatId));
-        model.addAttribute("chatMessages", chatsService.getChatMessages(chatId));
+        model.addAttribute("chatMessages", messagesService.getChatMessages(chatId));
         model.addAttribute("role", userDetails.getUser().getRole());
         return "chats/chat_page";
     }
 
-    @GetMapping("/{chat-id}/deleteUserFromChat")
-    public String deleteUserFromChat(HttpServletRequest request,
-                                     @PathVariable("chat-id") Long chatId,
-                                     @RequestParam("user-id") Long userId) {
-        usersService.deleteUserFromChat(userId, chatId);
+    @PostMapping("/{chatId}/update")
+    public String updateChat(@PathVariable("chatId") Long chatId,
+                             Chat chat,
+                             HttpServletRequest request) {
+        chatsService.updateChat(chatId, chat);
         return returnToPreviousPage(request);
     }
 
-    @PostMapping("/{chat-id}/addUserToChat")
-    public String addUserToChat(HttpServletRequest request,
-                                @PathVariable("chat-id") Long chatId,
-                                @RequestParam("user-id") Long userId) {
-        usersService.addUserToChat(userId, chatId);
-        return returnToPreviousPage(request);
-    }
-
-    @PostMapping("/{chat-id}/messages")
-    public String addMessageToChat(HttpServletRequest request,
-                                   @PathVariable("chat-id") Long chatId,
-                                   Message message) {
-        messagesService.addMessageToChat(chatId, message);
-        return returnToPreviousPage(request);
-    }
-
-    @GetMapping("/{chat-id}/delete")
-    public String deleteChat(HttpServletRequest request,
-                             @PathVariable("chat-id") Long chatId) {
+    @GetMapping("/{chatId}/delete")
+    public String deleteChat(@PathVariable("chatId") Long chatId,
+                             HttpServletRequest request) {
         chatsService.deleteChat(chatId);
         return returnToPreviousPage(request);
     }
 
-    @PostMapping("/{chat-id}/update")
-    public String updateChat(HttpServletRequest request,
-                             @PathVariable("chat-id") Long chatId,
-                             Chat chat) {
-        chatsService.updateChat(chatId, chat);
+    @PostMapping("/{chatId}/users")
+    public String addUserToChat(@PathVariable("chatId") Long chatId,
+                                @RequestParam("user-id") Long userId,
+                                HttpServletRequest request) {
+        chatsService.addUserToChat(chatId, userId);
+        return returnToPreviousPage(request);
+    }
+
+    @GetMapping("/{chatId}/users/{userId}/delete")
+    public String deleteUserFromChat(@PathVariable("chatId") Long chatId,
+                                     @PathVariable("userId") Long userId,
+                                     HttpServletRequest request) {
+        chatsService.deleteUserFromChat(chatId, userId);
         return returnToPreviousPage(request);
     }
 }

@@ -4,7 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.inno.messenger.models.Message;
 import ru.inno.messenger.security.details.CustomUserDetails;
 import ru.inno.messenger.service.MessagesService;
@@ -22,40 +26,40 @@ public class MessagesController {
 
     @GetMapping
     public String getMessagesPage(Model model) {
-        model.addAttribute("messages", messagesService.getAllMessagesOrderedByChat());
+        model.addAttribute("messages", messagesService.getAllMessages());
         model.addAttribute("chats", messagesService.getAllChats());
         return "messages/messages_page";
     }
 
     @PostMapping
-    public String addMessage(HttpServletRequest request,
+    public String addMessage(@RequestParam("chat-id") Long chatId,
                              Message message,
-                             @RequestParam("chat-id") Long chatId) {
+                             HttpServletRequest request) {
         messagesService.addMessageToChat(chatId, message);
         return returnToPreviousPage(request);
     }
 
-    @GetMapping("/{message-id}")
+    @GetMapping("/{messageId}")
     public String getMessagePage(@AuthenticationPrincipal CustomUserDetails userDetails,
-                                 @PathVariable("message-id") Long messageId,
+                                 @PathVariable("messageId") Long messageId,
                                  Model model) {
         model.addAttribute("message", messagesService.getMessage(messageId));
         model.addAttribute("role", userDetails.getUser().getRole());
         return "messages/message_page";
     }
 
-    @GetMapping("/{message-id}/delete")
-    public String deleteMessage(HttpServletRequest request,
-                                @PathVariable("message-id") Long messageId) {
-        messagesService.deleteMessage(messageId);
+    @PostMapping("/{messageId}/update")
+    public String updateMessage(@PathVariable("messageId") Long messageId,
+                                Message message,
+                                HttpServletRequest request) {
+        messagesService.updateMessage(messageId, message);
         return returnToPreviousPage(request);
     }
 
-    @PostMapping("/{message-id}/update")
-    public String updateMessage(HttpServletRequest request,
-                                @PathVariable("message-id") Long messageId,
-                                Message message) {
-        messagesService.updateMessage(messageId, message);
+    @GetMapping("/{messageId}/delete")
+    public String deleteMessage(@PathVariable("messageId") Long messageId,
+                                HttpServletRequest request) {
+        messagesService.deleteMessage(messageId);
         return returnToPreviousPage(request);
     }
 }

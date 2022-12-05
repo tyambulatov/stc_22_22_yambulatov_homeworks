@@ -8,6 +8,8 @@ import ru.inno.messenger.repositories.ChatsRepository;
 import ru.inno.messenger.repositories.MessagesRepository;
 import ru.inno.messenger.service.MessagesService;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -19,6 +21,16 @@ public class MessagesServiceImpl implements MessagesService {
     private final ChatsRepository chatsRepository;
 
     @Override
+    public List<Message> getAllMessages() {
+        return messagesRepository.findByOrderByChatAscSendTimeAsc();
+    }
+
+    @Override
+    public List<Chat> getAllChats() {
+        return chatsRepository.findAll();
+    }
+
+    @Override
     public void addMessageToChat(Long chatId, Message message) {
         Chat chat = chatsRepository.findById(chatId).orElseThrow();
         chat.getMessages().add(message);
@@ -26,15 +38,6 @@ public class MessagesServiceImpl implements MessagesService {
 
         chatsRepository.save(chat);
         messagesRepository.save(message);
-    }
-
-    @Override
-    public void deleteMessage(Long messageId) {
-        Message message = messagesRepository.findById(messageId).orElseThrow();
-        Chat chat = message.getChat();
-        chat.getMessages().remove(message);
-        chatsRepository.save(chat);
-        messagesRepository.delete(message);
     }
 
     @Override
@@ -51,12 +54,19 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public List<Chat> getAllChats() {
-        return chatsRepository.findAll();
+    public void deleteMessage(Long messageId) {
+        Message message = messagesRepository.findById(messageId).orElseThrow();
+        Chat chat = message.getChat();
+        chat.getMessages().remove(message);
+        chatsRepository.save(chat);
+        messagesRepository.delete(message);
     }
 
     @Override
-    public List<Message> getAllMessagesOrderedByChat() {
-        return messagesRepository.findByOrderByChatAscSendTimeAsc();
+    public List<Message> getChatMessages(Long chatId) {
+        Chat chat = chatsRepository.findById(chatId).orElseThrow();
+        List<Message> chatMessages = new ArrayList<>(chat.getMessages());
+        chatMessages.sort(Comparator.comparing(Message::getSendTime));
+        return chatMessages;
     }
 }

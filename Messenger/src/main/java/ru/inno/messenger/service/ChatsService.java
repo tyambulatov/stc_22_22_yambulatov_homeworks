@@ -2,12 +2,19 @@ package ru.inno.messenger.service;
 
 
 import ru.inno.messenger.models.Chat;
-import ru.inno.messenger.models.Message;
 import ru.inno.messenger.models.User;
 
 import java.util.List;
 
 public interface ChatsService {
+
+    List<Chat> getAllChats();
+
+    List<Chat> getUserChats(Long userId);
+
+    List<Chat> getChatsWithoutUser(Long userId);
+
+    void addChat(Chat chat);
 
     Chat getChat(Long chatId);
 
@@ -15,14 +22,11 @@ public interface ChatsService {
 
     List<User> getInChatUsers(Long chatId);
 
-    List<Chat> getAllChats();
+    void updateChat(Long chatId, Chat chat);
 
     void deleteChat(Long chatId);
 
-    void addChat(Chat chat);
+    void addUserToChat(Long chatId, Long userId);
 
-    void updateChat(Long chatId, Chat chat);
-
-    List<Message> getChatMessages(Long chatId);
-
+    void deleteUserFromChat(Long chatId, Long userId);
 }

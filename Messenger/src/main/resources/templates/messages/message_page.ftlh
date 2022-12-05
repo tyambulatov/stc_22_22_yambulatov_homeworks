@@ -19,7 +19,7 @@
 <br>
 <td>Содержание: ${message.content}</td>
 <br>
-<h2>Редактировать содержания</h2>
+<h2>Редактировать содержание</h2>
 <form action="/messages/${message.id}/update" method="post">
     <label>
         <input type="text" name="content" value="${message.content}">

@@ -6,6 +6,5 @@ import ru.inno.messenger.models.Message;
 import java.util.List;
 
 public interface MessagesRepository extends JpaRepository<Message, Long> {
-
     List<Message> findByOrderByChatAscSendTimeAsc();
 }
